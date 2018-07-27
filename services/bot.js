@@ -49,17 +49,19 @@ const REGULAR = {
   quote: /show quote/i
 }
 
-//6f95b09a5d9b67f657b7a2ce95d85084
-const apiKey = 'dba46ddc5e30d15ad433632d9f43e77f';
-const apiKey2 = '6f95b09a5d9b67f657b7a2ce95d85084'
+const notes = [];
+
+
+const APIKEY= '6f95b09a5d9b67f657b7a2ce95d85084';
+
 // fetch(`http://api.openweathermap.org/data/2.5/weather?q=London&APPID=${apiKey}`)
-// const getWeather = (city) => {
-//    return fetch(`api.openweathermap.org/data/2.5/forecast/daily?q=${city}&&units=metric&cnt=7&APPID=${apiKey}`)
-//       .then(res => res.json())
-//       .then(data => {
-//         return `Weather in ${city} is temperature - ${data.main.temp}, ${data.weather[0].description} `
-//       })
-// }
+const getWeather = (city) => {
+   return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${APIKEY}`)
+      .then(res => res.json())
+      .then(data => {
+        return `Weather in ${city} is temperature - ${data.main.temp}, ${data.weather[0].description} `
+      })
+}
 
 
 
@@ -67,11 +69,10 @@ const apiKey2 = '6f95b09a5d9b67f657b7a2ce95d85084'
 
 const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-const notes = [];
 
-function prettyfyWeatherMsg(day, text, tempreture) {
-  return `${day} is ${text} ${tempreture}`
-}
+
+const prettyfyWeatherMsg = (day, text, tempr) => `${day} is ${text} ${tempr}`;
+
 
 
 
@@ -101,8 +102,10 @@ function check (text) {
 
 }
 
+
+//Facade pattern
 const mainFunctions = {
-  weather: (city) => getWeather(city).then(msg => msg),
+  weather: (city) => getWeather(city),
   moneyExchange: ({ amount, from, to }) => {
     let result = fx.convert(amount, {from:from,to:to})
     return `It will be ${result} ${to}`
@@ -173,12 +176,10 @@ const communicate = (msg) => {
   text.shift();
   text = text.join(' ');
   let data = check(text)
-  console.log('CHECK',Boolean(data) , data)
   if (data) {
     let params = getParams(data);
-    console.log(params)
     let functionName = Object.keys(data)[0];
-    response= mainFunctions[functionName](params)
+    response = mainFunctions[functionName](params)
   }
   return {
     nick: 'BOT Waley',
