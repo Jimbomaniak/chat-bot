@@ -11,7 +11,6 @@
     const typing = document.querySelector('.typing');
     const form = document.querySelector('.msg-input form');
 
-
     saveBtn.onclick = () => {
       let nick = nickInput.value;
       let name = nameInput.value;
@@ -43,15 +42,6 @@
       socket.emit('chat message', data);
     }
 
-    // sendBtn.onclick = () => {
-    //   let data = {
-    //     nick: nickInput.value,
-    //     text: message.value,
-    //   };
-    //   message.value = '';
-    //   socket.emit('chat message', data);
-    // };
-
     sendBtn.addEventListener('click', sendMessage);
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -80,7 +70,6 @@
   })
 
   socket.on('bot message', (msg) => {
-    console.log('BOT ANSWER', msg)
     createMessage(msg)
   })
 
