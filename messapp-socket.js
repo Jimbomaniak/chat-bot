@@ -9,7 +9,8 @@ let numUsers = 0;
 let messages = [];
 let users =[];
 
-console.log(bot)
+const isPromise = (obj) => typeof obj.then == 'function';
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -32,7 +33,6 @@ app.post('/messages', (req, res) => messages.push(req.body));
 io.on('connection', (socket) => {
   let addedUser = false;
 
-
   socket.on('chat message', (msg) => {
     if (messages.length > 100) {
       messages.shift();
@@ -42,9 +42,18 @@ io.on('connection', (socket) => {
     io.emit('chat message', msg);
     if (bot.textListener(msg.text)) {
         response = bot.communicate(msg);
-        io.emit('bot message', response);
-    }
-  });
+        if (isPromise(response.text)) {
+          response.text.then((data) => {
+            let res = 'This city not found'
+            if (data.cod === 200) {
+              res = `Temperature: ${data.main.temp} News: ${data.weather.map(item => item.description)}`
+            }
+            return io.emit('bot message', {nick:'Weather BOT', text:res})})
+        } else {
+          io.emit('bot message', response);
+        }
+  }
+})
 
   socket.on('add user', (user) => {
     if (addedUser) return;
@@ -104,11 +113,3 @@ io.on('connection', (socket) => {
 
 http.listen(3030, () => console.log('Listening on *:3030'));
 
-
-// --- Over 100 messages test helper ---
-// for (let i=0; i < 99; i++){
-//     messages.push({
-//         nickname: 'Filler',
-//         text: `${i}`,
-//     });
-// }
