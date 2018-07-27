@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chat</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="grid-container">
+    <aside class=users>
+      <ul class="users-list">
+        <li class="user-name">
+          User Name
+        </li>
+      </ul>
+    </aside>
+    <main class="dialog">
+      <ul class="messages">
+      </ul>
+    </main>
+    <footer class="msg-input">
+      <form>
+        <input class="msg" autocomplete="off" />
+        <div tabindex="0" class='btn-submit'>Send</div>
+        <div class="typing"></div>
+      </form>
+    </footer>
+
+
+  </div>
+
+
+  <div id="myModal" class="modal">
+
+
+    <div class="modal-content">
+      <h3 class="title">Enter to the chat </h3>
+      <div class="input">
+        <p>Your name:</p>
+        <input type="text" class="name" placeholder="Name">
+        <p>Your Nick:</p>
+        <input type="text" class="nick" placeholder="Nick">
+        <button class="btn-save">Ok</button>
+      </div>
+
+    </div>
+
+  </div>
+  <script src='../socket.io/socket.io.js'></script>
+  <script src='../services/chat_sock.js'></script>
+
+</body>
+
+</html>

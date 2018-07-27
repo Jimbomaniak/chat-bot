@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito')
+
+body
+  font-family: 'Nunito', sans-serif
+  margin: auto
+  padding: 0
+  max-width: 1400px
+  box-shadow: 0 10px 14px 0px hsla(0, 0, 0, 0.15)
+
+.grid-container
+  display: grid
+  grid-template-columns: 200px auto
+  grid-template-rows:  auto 75px
+  grid-template-areas: "aside main" "aside footer"
+  aside
+    grid-area: aside
+    background-color: #f5f6fa
+    label::before
+      content: "\f111"
+      font-family: FontAwesome
+      font-style: normal
+      font-weight: normal
+      text-decoration: inherit
+      margin-right: 5px
+    .just.appeared
+      color: #97e797
+    .just.left
+      color: #fe607a
+    .online
+      color: green
+    .offline
+      color: red
+    ul
+      list-style: none
+      padding: 0
+      margin: 5px
+  main
+    grid-area: main
+    align-self: end
+    .messages
+      height: 800px
+      list-style: none
+      overflow-y: auto
+      overflow-x: hidden
+      .chat-message
+        background-color: #eec2c2
+      .message-direct
+        background-color: #a7c4dc
+      li
+        display: inline-block
+        white-space: nowrap
+        border-radius: 10px
+        padding: 10px
+        margin: 20px 100% 5px 10px
+        box-shadow: 0 5px 16px 0px hsla(0, 0, 0, 0.1)
+        background-color: #fff4e2
+
+
+
+  footer
+    grid-area: footer
+    background-color: #c0d5fe
+    justify-self: stretch
+    .msg
+      border: 0
+      padding: 10px
+      margin: .5%
+      width: 80%
+      height: 100%
+      box-shadow: 0px 0px 20px 1px hsla(0, 0, 0, 0.15)
+
+    .btn-submit
+      display: inline-block
+      font-family: 'Helvetica', 'Arial', sans-serif
+      font-size: 20px
+      text-align: center
+      padding: 5px 15px
+      background-color: #e1ecfe
+      color: #033c98
+      border-radius: 4px
+      border: none
+      cursor: pointer
+      box-shadow: 0 10px 14px 2px hsla(0, 0, 0, 0.15)
+      transition: all ease-in-out 50ms
+      &:active
+        transform: scale(0.9)
+        box-shadow: 0 10px 14px 0px hsla(0, 0, 0, 0.15)
+
+
+
+.modal
+  display: block /* Hidden by default */
+  position: fixed /* Stay in place */
+  z-index: 1 /* Sit on top */
+  padding-top: 100px /* Location of the box */
+  left: 0
+  top: 0
+  width: 100% /* Full width */
+  height: 100% /* Full height */
+  overflow: auto /* Enable scroll if needed */
+  background-color: rgb(0,0,0) /* Fallback color */
+  background-color: rgba(0,0,0,0.7) /* Black w/ opacity */
+
+
+/* Modal Content */
+.modal-content
+  background-color: #fefefe
+  border-radius: 5px
+  margin: auto
+  border: 1px solid #888
+  width: 40%
+  .input
+    padding: 15px
+    .btn-save
+      float: right
+      position: fixed
+    *
+      padding: 5px
+      margin: 5px
+
+  .title
+    background-color: #f5f6fa
+    padding: 10px 20px
+    height: 50px
+
+
+
