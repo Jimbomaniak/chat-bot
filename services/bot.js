@@ -1,5 +1,6 @@
 const fx = require('money');
 const fetch = require('node-fetch');
+
 fx.base = "USD";
 fx.rates = {
     "EUR" : 0.745101,
@@ -8,10 +9,6 @@ fx.rates = {
     "USD" : 1,
     "UAH" : 26.78
 }
-
-//@bot Save note title: Title, body: body
-//@bot show notes
-//@bot show note Title
 
 const ADVICES = [
   'Перестать пить газировку.',
@@ -51,46 +48,16 @@ const REGULAR = {
 
 const notes = [];
 
-
 const APIKEY= '6f95b09a5d9b67f657b7a2ce95d85084';
 
-// fetch(`http://api.openweathermap.org/data/2.5/weather?q=London&APPID=${apiKey}`)
 const getWeather = (city) => {
-   return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${APIKEY}`)
+   return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${APIKEY}`)
       .then(res => res.json())
-      .then(data => {
-        return `Weather in ${city} is temperature - ${data.main.temp}, ${data.weather[0].description} `
-      })
 }
-
-
-
-
 
 const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-
-
-const prettyfyWeatherMsg = (day, text, tempr) => `${day} is ${text} ${tempr}`;
-
-
-
-
-// @bot what the weather today in london
-function getWeatherOnCurrentDay (data, day) {
-  switch (day.toLowerCase()) {
-    case 'today':
-      return prettyfyWeatherMsg(data.current.day, data.current.skytext, data.current.temperature)
-    case 'tomorow':
-      return prettyfyWeatherMsg(data.forecast.day, data.forecast.skytext, data.forecast.tempreture)
-    default:
-      break;
-  }
-}
-
-
-
-function check (text) {
+const check = (text) => {
   let res = Object.entries(REGULAR).
     reduce((curr, [theme, re]) => {
       if (text.match(re)) {
@@ -102,10 +69,9 @@ function check (text) {
 
 }
 
-
 //Facade pattern
 const mainFunctions = {
-  weather: (city) => getWeather(city),
+  weather: ({city}) => getWeather(city),
   moneyExchange: ({ amount, from, to }) => {
     let result = fx.convert(amount, {from:from,to:to})
     return `It will be ${result} ${to}`
@@ -122,6 +88,9 @@ const mainFunctions = {
   noteShowList: () =>  {
     let ans = ''
     let counter = 1;
+    if (!notes.length) {
+      return 'No notes yet'
+    }
     for (let note of notes) {
     ans += `${counter} - title: ${note.title}, body: ${note.body}`
     counter++
@@ -144,7 +113,7 @@ const mainFunctions = {
   quote: () => getRandomItem(QUOTES)
 }
 
-function getParams(data) {
+const getParams = (data) => {
   if (data.weather) {
     let [, city] = data.weather
     return {city}
@@ -167,9 +136,6 @@ function getParams(data) {
   }
 }
 
-//@bot convert 20 uah to usd
-
-
 const communicate = (msg) => {
   let response = 'I do not understand'
   let text = msg.text.split(' ');
@@ -181,15 +147,13 @@ const communicate = (msg) => {
     let functionName = Object.keys(data)[0];
     response = mainFunctions[functionName](params)
   }
-  return {
-    nick: 'BOT Waley',
-    text: response
-  }
+   return {
+      nick: 'BOT Waley',
+      text: response
+    }
+
 }
 
-
-
 const textListener = (text) => text.split(' ')[0] === '@bot';
-
 
 module.exports =  {communicate, textListener};
