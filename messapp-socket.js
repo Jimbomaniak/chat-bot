@@ -1,10 +1,10 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
-
 const bot = require('./services/bot');
 
+const PORT = 3030;
 let numUsers = 0;
 let messages = [];
 let users =[];
@@ -111,5 +111,5 @@ io.on('connection', (socket) => {
   }
 })
 
-http.listen(3030, () => console.log('Listening on *:3030'));
+http.listen(PORT, () => console.log(`Listening on *:${PORT}`));
 
